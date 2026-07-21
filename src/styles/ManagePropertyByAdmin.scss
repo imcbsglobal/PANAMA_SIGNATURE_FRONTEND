@@ -1,0 +1,240 @@
+// panama-signature/src/styles/ManagePropertyByAdmin.scss
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap");
+
+$gold: #c9974f;
+$ink: #1a1206;
+$cream: #f3ead9;
+$card: #fdf8ef;
+$muted: #7a6a4d;
+
+.manage-property {
+  flex: 1;
+  background: $cream;
+  min-height: 100vh;
+  padding: 48px 56px 80px;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  &__header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 500;
+      font-size: 26px;
+      color: $ink;
+      margin: 0 0 4px;
+    }
+
+    p {
+      font-size: 13px;
+      color: $muted;
+      margin: 0;
+    }
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9d9b8;
+    color: $gold;
+    border-radius: 4px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__add {
+    background: $ink;
+    color: #e9d9b8;
+    border: none;
+    padding: 14px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #2a1f0e;
+    }
+  }
+
+  &__loading,
+  &__empty,
+  &__error {
+    font-size: 14px;
+    color: $muted;
+  }
+
+  &__error {
+    color: #b3403a;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  &__card {
+    background: $card;
+    border: 1px solid rgba($gold, 0.3);
+    box-shadow: 0 12px 40px rgba(26, 18, 6, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: rgba($ink, 0.05);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba($ink, 0.04),
+      rgba($ink, 0.04) 10px,
+      rgba($ink, 0.02) 10px,
+      rgba($ink, 0.02) 20px
+    );
+  }
+
+  &__status-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: $gold;
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+
+  &__body {
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    h3 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 17px;
+      font-weight: 500;
+      color: $ink;
+      margin: 0;
+    }
+  }
+
+  &__location {
+    font-size: 12px;
+    color: $muted;
+    margin: 0;
+  }
+
+  &__price {
+    font-size: 15px;
+    font-weight: 600;
+    color: $gold;
+    margin: 0;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: $muted;
+    text-transform: capitalize;
+
+    span {
+      background: rgba($gold, 0.1);
+      padding: 3px 8px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  &__edit-btn,
+  &__delete-btn {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 10px 0;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s ease;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__edit-btn {
+    background: $ink;
+    color: #e9d9b8;
+
+    &:hover {
+      background: #2a1f0e;
+    }
+  }
+
+  &__delete-btn {
+    background: transparent;
+    color: #b3403a;
+    border: 1px solid rgba(#b3403a, 0.4);
+
+    &:hover {
+      background: rgba(#b3403a, 0.08);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .manage-property {
+    padding: 30px 16px 60px;
+
+    &__header {
+      flex-direction: column;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

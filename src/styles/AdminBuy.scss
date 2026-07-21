@@ -1,0 +1,413 @@
+// panama-signature/src/styles/AdminBuy.scss
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Dancing+Script:wght@600;700&display=swap");
+
+$gold: #c9974f;
+$ink: #1a1206;
+$cream: #f3ead9;
+$card: #fdf8ef;
+$muted: #7a6a4d;
+
+.admin-page {
+  display: flex;
+  min-height: 100vh;
+  background: $cream;
+}
+
+.admin-buy {
+  flex: 1;
+  background: $cream;
+  min-height: 100vh;
+  padding: 48px 56px 80px;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  &__header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 500;
+      font-size: 26px;
+      color: $ink;
+      margin: 0 0 4px;
+    }
+
+    p {
+      font-size: 13px;
+      color: $muted;
+      margin: 0;
+    }
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9d9b8;
+    color: $gold;
+    border-radius: 4px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $card;
+    border: 1px solid rgba($ink, 0.12);
+    color: $ink;
+    font-size: 13px;
+    padding: 12px 18px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: $gold;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  &__section {
+    background: $card;
+    border: 1px solid rgba($gold, 0.3);
+    box-shadow: 0 12px 40px rgba(26, 18, 6, 0.06);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 500;
+      font-size: 17px;
+      color: $ink;
+      margin: 0;
+    }
+  }
+
+  &__num {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $gold;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 50%;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    &--three {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  &__half {
+    max-width: calc(50% - 10px);
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: $muted;
+
+    .req {
+      color: #c15b4a;
+      text-transform: none;
+    }
+  }
+
+  &__charcount {
+    align-self: flex-end;
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgba($ink, 0.35);
+  }
+
+  &__checkbox {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px !important;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: $gold;
+    }
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: 14px;
+    color: $ink;
+    background: #fff;
+    border: 1px solid rgba($ink, 0.12);
+    padding: 11px 12px;
+    resize: none;
+    transition: border-color 0.25s ease;
+
+    &::placeholder {
+      color: rgba($ink, 0.35);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $gold;
+    }
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23c9974f' stroke-width='1.5' fill='none' fill-rule='evenodd'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 30px;
+  }
+
+  &__dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    border: 1.5px dashed rgba($gold, 0.5);
+    background: rgba($gold, 0.05);
+    padding: 40px 20px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+
+    svg {
+      width: 34px;
+      height: 34px;
+      color: $gold;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: $ink;
+      font-weight: 500;
+    }
+
+    span {
+      font-size: 12px;
+      color: $muted;
+    }
+
+    &--active {
+      border-color: $gold;
+      background: rgba($gold, 0.1);
+    }
+  }
+
+  &__browse {
+    margin-top: 6px;
+    background: $gold;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: darken($gold, 8%);
+    }
+  }
+
+  &__hint {
+    font-size: 11px;
+    color: rgba($ink, 0.45);
+    line-height: 1.6;
+    margin: -8px 0 0;
+  }
+
+  &__previews {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  &__preview {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    button {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(#fff, 0.9);
+      border: none;
+      border-radius: 50%;
+      font-size: 14px;
+      line-height: 1;
+      color: $ink;
+      cursor: pointer;
+
+      &:hover {
+        background: #fff;
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  &__status {
+    font-size: 13px;
+    color: $muted;
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 14px;
+  }
+
+  &__draft {
+    background: $card;
+    color: $ink;
+    border: 1px solid rgba($ink, 0.15);
+    padding: 16px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: $gold;
+    }
+  }
+
+  &__submit {
+    background: $ink;
+    color: #e9d9b8;
+    border: none;
+    padding: 16px 28px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #2a1f0e;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@media (max-width: 1080px) {
+  .admin-buy__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .admin-page {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-buy {
+    padding: 30px 16px 60px;
+
+    &__section {
+      padding: 24px 20px;
+    }
+
+    &__row,
+    &__row--three {
+      grid-template-columns: 1fr;
+    }
+
+    &__half {
+      max-width: 100%;
+    }
+
+    &__header {
+      flex-direction: column;
+    }
+
+    &__previews {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

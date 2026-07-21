@@ -1,0 +1,394 @@
+// panama-signature/src/styles/manageprojects.scss
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap");
+
+$gold: #c9974f;
+$ink: #1a1206;
+$cream: #f3ead9;
+$card: #fdf8ef;
+$muted: #7a6a4d;
+
+.manage-property {
+  flex: 1;
+  background: $cream;
+  min-height: 100vh;
+  padding: 48px 56px 80px;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  &__header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 500;
+      font-size: 26px;
+      color: $ink;
+      margin: 0 0 4px;
+    }
+
+    p {
+      font-size: 13px;
+      color: $muted;
+      margin: 0;
+    }
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9d9b8;
+    color: $gold;
+    border-radius: 4px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__add {
+    background: $ink;
+    color: #e9d9b8;
+    border: none;
+    padding: 14px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #2a1f0e;
+    }
+  }
+
+  &__loading,
+  &__empty,
+  &__error {
+    font-size: 14px;
+    color: $muted;
+  }
+
+  &__error {
+    color: #b3403a;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  &__card {
+    background: $card;
+    border: 1px solid rgba($gold, 0.3);
+    box-shadow: 0 12px 40px rgba(26, 18, 6, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 100%;
+
+    &--editing {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: rgba($ink, 0.05);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba($ink, 0.04),
+      rgba($ink, 0.04) 10px,
+      rgba($ink, 0.02) 10px,
+      rgba($ink, 0.02) 20px
+    );
+  }
+
+  &__status-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: $gold;
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+
+  &__body {
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+
+    h3 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 17px;
+      font-weight: 500;
+      color: $ink;
+      margin: 0;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  &__location {
+    font-size: 12px;
+    color: $muted;
+    margin: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__price {
+    font-size: 15px;
+    font-weight: 600;
+    color: $gold;
+    margin: 0;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: $muted;
+    text-transform: capitalize;
+
+    span {
+      background: rgba($gold, 0.1);
+      padding: 3px 8px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  &__edit-btn,
+  &__delete-btn {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 10px 0;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s ease;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__edit-btn {
+    background: $ink;
+    color: #e9d9b8;
+
+    &:hover {
+      background: #2a1f0e;
+    }
+  }
+
+  &__delete-btn {
+    background: transparent;
+    color: #b3403a;
+    border: 1px solid rgba(#b3403a, 0.4);
+
+    &:hover {
+      background: rgba(#b3403a, 0.08);
+    }
+  }
+
+  // Inline edit form (reuses AdminAddProject field styling)
+  &__edit-form {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: $ink;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: 14px;
+      padding: 11px 14px;
+      border: 1px solid rgba($gold, 0.35);
+      border-radius: 2px;
+      background: #fff;
+      color: $ink;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $gold;
+        box-shadow: 0 0 0 3px rgba($gold, 0.15);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  }
+
+  &__edit-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  &__edit-checkbox {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px !important;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: $gold;
+    }
+  }
+
+  &__existing-images {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__existing-images-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: $ink;
+  }
+
+  &__thumb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 10px;
+  }
+
+  &__thumb {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba($gold, 0.3);
+    overflow: hidden;
+    background: rgba($ink, 0.05);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__thumb-cover {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba($ink, 0.75);
+    color: #e9d9b8;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 2px 0;
+  }
+
+  &__thumb-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: rgba($ink, 0.75);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #b3403a;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .manage-property {
+    padding: 30px 16px 60px;
+
+    &__header {
+      flex-direction: column;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__edit-row {
+      grid-template-columns: 1fr;
+    }
+  }
+}

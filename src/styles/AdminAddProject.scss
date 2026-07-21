@@ -1,0 +1,177 @@
+// panama-signature/src/styles/AdminAddProject.scss
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Dancing+Script:wght@600;700&display=swap");
+
+.admin-page {
+  display: flex;
+  min-height: 100vh;
+  background: #f3ead9;
+}
+
+.admin-project {
+  flex: 1;
+  padding: 48px 60px;
+  display: flex;
+  justify-content: center;
+
+  &__card {
+    width: 100%;
+    max-width: 780px;
+    background: #fff;
+    border: 1px solid rgba(201, 151, 79, 0.25);
+    border-radius: 4px;
+    padding: 40px 48px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__manage-btn {
+    background: transparent;
+    color: #c9974f;
+    border: 1px solid #c9974f;
+    padding: 11px 24px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: #c9974f;
+      color: #1a1206;
+    }
+  }
+
+  &__eyebrow {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #c9974f;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: #1a1206;
+    margin: 0;
+  }
+
+  &__divider {
+    width: 40px;
+    height: 2px;
+    background: #c9974f;
+    margin: 20px 0 32px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: #1a1206;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: 14px;
+      padding: 11px 14px;
+      border: 1px solid rgba(201, 151, 79, 0.35);
+      border-radius: 2px;
+      background: #fdfaf4;
+      color: #1a1206;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #c9974f;
+        box-shadow: 0 0 0 3px rgba(201, 151, 79, 0.15);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button[type="submit"] {
+      align-self: flex-start;
+      margin-top: 8px;
+      background: #c9974f;
+      color: #1a1206;
+      border: none;
+      padding: 13px 32px;
+      border-radius: 2px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #dbab63;
+      }
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  &__checkbox {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px !important;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #c9974f;
+    }
+  }
+
+  &__status {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #c9974f;
+    font-weight: 600;
+  }
+
+  @media (max-width: 860px) {
+    padding: 32px 24px;
+
+    &__card {
+      padding: 28px 24px;
+    }
+
+    &__row {
+      grid-template-columns: 1fr;
+    }
+
+    &__header {
+      flex-direction: column;
+    }
+  }
+}
