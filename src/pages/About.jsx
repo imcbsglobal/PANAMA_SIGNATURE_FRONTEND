@@ -339,13 +339,12 @@ function About() {
             <div className="about-showcase__info">
               <span className="about-showcase__dot">+</span> Real estate group
               <br />
-              base on New York
+              base on UAE
             </div>
             <div className="about-showcase__info">
-              <span className="about-showcase__dot">+</span> Monday 21,
-              November
+              <span className="about-showcase__dot">+</span> 
               <br />
-              12:00:02 (Gmt +9)
+            
             </div>
           </div>
         </div>

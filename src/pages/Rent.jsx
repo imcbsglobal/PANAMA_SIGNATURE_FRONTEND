@@ -356,9 +356,7 @@ function Rent() {
           </div>
 
           <div className="rent-titlebar__controls">
-            <button className="rent-titlebar__toggle">
-              <FaRegMap /> Map
-            </button>
+           
             <button className="rent-titlebar__toggle rent-titlebar__toggle--active">
               <FaListUl /> List
             </button>

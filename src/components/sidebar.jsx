@@ -115,37 +115,49 @@ function Sidebar() {
         <button className="sidebar__logout" onClick={handleLogoutClick}>
           Logout
         </button>
+      </aside>
 
-        {showLogoutConfirm && (
-          <div className="logout-modal__overlay" onClick={cancelLogout}>
-            <div
-              className="logout-modal"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <span className="logout-modal__eyebrow">Confirm</span>
-              <h3 className="logout-modal__title">Log out of admin?</h3>
-              <p className="logout-modal__text">
-                You'll need to sign in again to access the dashboard.
-              </p>
+      {/*
+        Rendered OUTSIDE <aside>, which is intentional and load-bearing:
+        .sidebar uses position: sticky, and a sticky (or transform)
+        ancestor creates its own stacking context. Any position: fixed
+        element nested inside it gets its z-index confined to that
+        ancestor's stacking context instead of the page's root context —
+        so elements elsewhere on the page (e.g. property card images
+        rendered later in the DOM) can paint on top of this modal even
+        though it has a higher z-index. Keeping it as a sibling of
+        <aside>, at the top level of this component's Fragment, lets
+        it stack against the whole page correctly.
+      */}
+      {showLogoutConfirm && (
+        <div className="logout-modal__overlay" onClick={cancelLogout}>
+          <div
+            className="logout-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="logout-modal__eyebrow">Confirm</span>
+            <h3 className="logout-modal__title">Log out of admin?</h3>
+            <p className="logout-modal__text">
+              You'll need to sign in again to access the dashboard.
+            </p>
 
-              <div className="logout-modal__actions">
-                <button
-                  className="logout-modal__btn logout-modal__btn--cancel"
-                  onClick={cancelLogout}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="logout-modal__btn logout-modal__btn--confirm"
-                  onClick={confirmLogout}
-                >
-                  Logout
-                </button>
-              </div>
+            <div className="logout-modal__actions">
+              <button
+                className="logout-modal__btn logout-modal__btn--cancel"
+                onClick={cancelLogout}
+              >
+                Cancel
+              </button>
+              <button
+                className="logout-modal__btn logout-modal__btn--confirm"
+                onClick={confirmLogout}
+              >
+                Logout
+              </button>
             </div>
           </div>
-        )}
-      </aside>
+        </div>
+      )}
     </>
   );
 }

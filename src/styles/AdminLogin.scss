@@ -116,8 +116,13 @@
 }
 
 .admin-login__card input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
   font-family: inherit;
   font-size: 15px;
+  letter-spacing: normal;
+  text-transform: none;
   color: #1a1206;
   background: transparent;
   border: none;
@@ -132,6 +137,44 @@
   &:focus {
     outline: none;
     border-bottom-color: #c9974f;
+  }
+}
+
+// Wrapper for the password field so the eye icon can sit
+// inside the input's bounds without disturbing the layout.
+.admin-login__password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  input {
+    padding-right: 30px;
+  }
+}
+
+.admin-login__eye-toggle {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  font-size: 15px;
+  color: #7a6a4d;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #c9974f;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 

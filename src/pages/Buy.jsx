@@ -431,9 +431,7 @@ function Buy() {
           </div>
 
           <div className="buy-titlebar__controls">
-            <button className="buy-titlebar__toggle">
-              <FaRegMap /> Map
-            </button>
+            
             <button className="buy-titlebar__toggle buy-titlebar__toggle--active">
               <FaListUl /> List
             </button>
