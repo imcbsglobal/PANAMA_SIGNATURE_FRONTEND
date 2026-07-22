@@ -65,7 +65,7 @@ function WhatsAppButton() {
 
   return (
     <a
-      href="https://wa.me/123456789"
+      href="https://wa.me/+971507742399"
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"

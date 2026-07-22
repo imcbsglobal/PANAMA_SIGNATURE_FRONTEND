@@ -1,5 +1,5 @@
 // panama-signature/src/components/sidebar.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../api/api";
 import "./sidebar.scss";
@@ -8,6 +8,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleLogoutClick = () => {
     setShowLogoutConfirm(true);
@@ -22,93 +23,130 @@ function Sidebar() {
     setShowLogoutConfirm(false);
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+    setIsMobileOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileOpen((prev) => !prev);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileOpen(false);
+  };
+
+  // Close the drawer automatically if the route changes some other way
+  // (e.g. browser back/forward) so it never gets stuck open.
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [location.pathname]);
+
+  // Lock body scroll while the mobile drawer is open.
+  useEffect(() => {
+    document.body.style.overflow = isMobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileOpen]);
+
+  const navItems = [
+    { path: "/admin-buy", label: "Buy Properties" },
+    { path: "/admin-rent", label: "Rent properties" },
+    { path: "/admin-project", label: "Projects" },
+    { path: "/admin-team", label: "Team" },
+  ];
+
   return (
-    <aside className="sidebar">
-      <div className="sidebar__brand">
-        <span className="sidebar__eyebrow">Panama</span>
-        <span className="sidebar__title">
-          Signature<span className="script"> Admin</span>
-        </span>
-      </div>
-
-      <div className="sidebar__divider" />
-
-      <nav className="sidebar__nav">
-        <button
-          className={
-            "sidebar__link" +
-            (location.pathname === "/admin-buy" ? " sidebar__link--active" : "")
-          }
-          onClick={() => navigate("/admin-buy")}
-        >
-          Buy Properties
-        </button>
-
-        <button
-          className={
-            "sidebar__link" +
-            (location.pathname === "/admin-rent" ? " sidebar__link--active" : "")
-          }
-          onClick={() => navigate("/admin-rent")}
-        >
-          Rent properties
-        </button>
-
-        <button
-          className={
-            "sidebar__link" +
-            (location.pathname === "/admin-project" ? " sidebar__link--active" : "")
-          }
-          onClick={() => navigate("/admin-project")}
-        >
-          Projects
-        </button>
-
-        <button
-          className={
-            "sidebar__link" +
-            (location.pathname === "/admin-team" ? " sidebar__link--active" : "")
-          }
-          onClick={() => navigate("/admin-team")}
-        >
-          Team
-        </button>
-      </nav>
-
-      <button className="sidebar__logout" onClick={handleLogoutClick}>
-        Logout
+    <>
+      <button
+        className={
+          "sidebar__mobile-toggle" +
+          (isMobileOpen ? " sidebar__mobile-toggle--open" : "")
+        }
+        onClick={toggleMobileMenu}
+        aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isMobileOpen}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
 
-      {showLogoutConfirm && (
-        <div className="logout-modal__overlay" onClick={cancelLogout}>
-          <div
-            className="logout-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className="logout-modal__eyebrow">Confirm</span>
-            <h3 className="logout-modal__title">Log out of admin?</h3>
-            <p className="logout-modal__text">
-              You'll need to sign in again to access the dashboard.
-            </p>
+      {isMobileOpen && (
+        <div
+          className="sidebar__overlay"
+          onClick={closeMobileMenu}
+          aria-hidden="true"
+        />
+      )}
 
-            <div className="logout-modal__actions">
-              <button
-                className="logout-modal__btn logout-modal__btn--cancel"
-                onClick={cancelLogout}
-              >
-                Cancel
-              </button>
-              <button
-                className="logout-modal__btn logout-modal__btn--confirm"
-                onClick={confirmLogout}
-              >
-                Logout
-              </button>
+      <aside
+        className={
+          "sidebar" + (isMobileOpen ? " sidebar--open" : "")
+        }
+      >
+        <div className="sidebar__brand">
+          <span className="sidebar__eyebrow">Panama</span>
+          <span className="sidebar__title">
+            Signature<span className="script"> Admin</span>
+          </span>
+        </div>
+
+        <div className="sidebar__divider" />
+
+        <nav className="sidebar__nav">
+          {navItems.map((item) => (
+            <button
+              key={item.path}
+              className={
+                "sidebar__link" +
+                (location.pathname === item.path
+                  ? " sidebar__link--active"
+                  : "")
+              }
+              onClick={() => handleNavigate(item.path)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <button className="sidebar__logout" onClick={handleLogoutClick}>
+          Logout
+        </button>
+
+        {showLogoutConfirm && (
+          <div className="logout-modal__overlay" onClick={cancelLogout}>
+            <div
+              className="logout-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="logout-modal__eyebrow">Confirm</span>
+              <h3 className="logout-modal__title">Log out of admin?</h3>
+              <p className="logout-modal__text">
+                You'll need to sign in again to access the dashboard.
+              </p>
+
+              <div className="logout-modal__actions">
+                <button
+                  className="logout-modal__btn logout-modal__btn--cancel"
+                  onClick={cancelLogout}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="logout-modal__btn logout-modal__btn--confirm"
+                  onClick={confirmLogout}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </aside>
+        )}
+      </aside>
+    </>
   );
 }
 

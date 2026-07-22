@@ -35,6 +35,9 @@ const PERIOD_LABELS = {
   yearly: "/ year",
 };
 
+// WhatsApp number in international format (no +, no leading 0)
+const WHATSAPP_NUMBER = "971545969259";
+
 function ViewRent() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -116,6 +119,39 @@ function ViewRent() {
       {STATUS_LABELS[property.status] || property.status}
     </span>
   );
+
+  // Build a detailed WhatsApp message with all property info
+  const buildWhatsAppMessage = () => {
+    const lines = [
+      `Hi, I'm interested in the following property:`,
+      ``,
+      `*${property.title}*`,
+      `Location: ${property.location}`,
+      `Rent: ${property.currency} ${Number(property.rent_price).toLocaleString()} ${PERIOD_LABELS[property.rent_period] || ""}`.trim(),
+      `Type: ${property.property_type}`,
+      `Bedrooms: ${property.bedrooms}`,
+      `Bathrooms: ${property.bathrooms}`,
+      `Size: ${property.size_sqft} sqft`,
+      `Status: ${STATUS_LABELS[property.status] || property.status}`,
+    ];
+
+    if (property.developer) {
+      lines.push(`Developer: ${property.developer}`);
+    }
+
+    if (property.available_from) {
+      lines.push(`Available From: ${property.available_from}`);
+    }
+
+    lines.push(``);
+    lines.push(`Property Link: ${window.location.href}`);
+
+    return lines.join("\n");
+  };
+
+  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    buildWhatsAppMessage()
+  )}`;
 
   return (
     <div className="viewrent-page">
@@ -292,19 +328,23 @@ function ViewRent() {
           <div className="viewrent-contact-card">
             <h3>Interested in this property?</h3>
             <p>Reach out to our team for a private viewing or more details.</p>
+
             <a
               className="viewrent-contact-card__btn viewrent-contact-card__btn--whatsapp"
-              href={`https://wa.me/?text=${encodeURIComponent(
-                `Hi, I'm interested in renting ${property.title} located at ${property.location}.`
-              )}`}
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaWhatsapp /> WhatsApp Us
             </a>
-            <a className="viewrent-contact-card__btn viewrent-contact-card__btn--call" href="tel:">
+
+            <a
+              className="viewrent-contact-card__btn viewrent-contact-card__btn--call"
+              href={`tel:+${WHATSAPP_NUMBER}`}
+            >
               <FaPhoneAlt /> Call Us
             </a>
+
             <Link to="/contact" className="viewrent-contact-card__link">
               Or fill out our contact form
             </Link>

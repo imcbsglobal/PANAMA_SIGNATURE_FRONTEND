@@ -30,6 +30,55 @@
     border-bottom-color: transparent;
   }
 
+  // Solid state once the user scrolls past the banner.
+  // Wins over --transparent because it's declared after it.
+  // Uses the same white bg / dark text look as --light.
+  &--scrolled {
+    background: #fff;
+    color: #1a1206;
+    border-bottom: 1px solid rgba(26, 18, 6, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+    .navbar__links {
+      color: #1a1206;
+
+      li {
+        opacity: 0.75;
+
+        &.active {
+          color: #c9974f;
+          opacity: 1;
+
+          &::after {
+            background: #c9974f;
+          }
+        }
+      }
+    }
+
+    .navbar__right {
+      color: #1a1206;
+    }
+
+    .navbar__email {
+      color: #1a1206;
+    }
+
+    .navbar__login {
+      border-color: rgba(26, 18, 6, 0.3);
+      color: #1a1206;
+
+      &:hover {
+        background: rgba(201, 151, 79, 0.1);
+        border-color: #c9974f;
+      }
+    }
+
+    .navbar__burger {
+      color: #1a1206;
+    }
+  }
+
   &--home {
     .navbar__links {
       gap: 48px;

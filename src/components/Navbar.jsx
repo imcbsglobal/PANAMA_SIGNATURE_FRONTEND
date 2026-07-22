@@ -1,5 +1,5 @@
 // panama-signature/src/components/Navbar.jsx
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaEnvelope, FaUser, FaBars, FaTimes } from "react-icons/fa";
 import AdminLoginModal from "../pages/AdminLogin";
@@ -11,20 +11,85 @@ const TRANSPARENT_ROUTES = ["/", "/about", "/contact"];
 // routes that use the full-width light (white bg, black text) navbar
 const LIGHT_ROUTES = ["/buy", "/rent", "/projects"];
 
+// each transparent route's banner/hero section, so we can watch it
+// and switch the navbar to solid the moment it scrolls out of view
+const BANNER_SELECTORS = {
+  "/": ".hero",
+  "/about": ".about-banner",
+  "/contact": ".contact-banner",
+};
+
+// roughly matches the navbar's min-height, used as the intersection
+// root margin so the switch happens right as content tucks under it
+const NAVBAR_HEIGHT = 68;
+
 function Navbar() {
   const location = useLocation();
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const observerRef = useRef(null);
 
   const isTransparent = TRANSPARENT_ROUTES.includes(location.pathname);
   const isLight = LIGHT_ROUTES.includes(location.pathname);
   const isHome = location.pathname === "/";
 
+  useEffect(() => {
+    // clean up any observer from a previous route
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = null;
+    }
+
+    const selector = BANNER_SELECTORS[location.pathname];
+
+    // routes with no banner (Buy/Rent/Projects etc.) — navbar is
+    // already solid via navbar--light, nothing to watch
+    if (!selector) {
+      setIsScrolled(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    // wait a tick so the page's banner element exists in the DOM
+    const raf = requestAnimationFrame(() => {
+      if (cancelled) return;
+      const bannerEl = document.querySelector(selector);
+
+      if (!bannerEl) {
+        // fallback: no banner found, default to solid so text stays readable
+        setIsScrolled(true);
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsScrolled(!entry.isIntersecting);
+        },
+        { rootMargin: `-${NAVBAR_HEIGHT}px 0px 0px 0px`, threshold: 0 }
+      );
+
+      observer.observe(bannerEl);
+      observerRef.current = observer;
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
+      }
+    };
+  }, [location.pathname]);
+
   const navClass = [
     "navbar",
-    isTransparent ? "navbar--transparent" : "",
+    isTransparent && !isScrolled ? "navbar--transparent" : "",
     isLight ? "navbar--light" : "",
     isHome ? "navbar--home" : "",
+    isScrolled ? "navbar--scrolled" : "",
     mobileMenuOpen ? "navbar--menu-open" : "",
   ]
     .filter(Boolean)

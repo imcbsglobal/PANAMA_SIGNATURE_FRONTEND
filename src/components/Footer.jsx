@@ -20,7 +20,8 @@ function Footer() {
 
           <div className="footer__divider" />
 
-          <div className="footer__phone">+123 456 789 00</div>
+          <div className="footer__phone">+971507742399</div>
+          <div className="footer__phone">0545969259</div>
 
           <div className="footer__divider" />
 
@@ -50,7 +51,7 @@ function Footer() {
   </a>
 
   <a
-    href="https://instagram.com"
+    href="https://www.instagram.com/panama_signature_properties?igsh=NzRvdWhvYTRvMmN5"
     target="_blank"
     rel="noreferrer"
     aria-label="Instagram"

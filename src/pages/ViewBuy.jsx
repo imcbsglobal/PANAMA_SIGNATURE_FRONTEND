@@ -38,6 +38,9 @@ const FURNISHED_LABELS = {
   unfurnished: "Unfurnished",
 };
 
+// WhatsApp number in international format (no +, no leading 0)
+const WHATSAPP_NUMBER = "971545969259";
+
 function ViewBuy() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -129,6 +132,55 @@ function ViewBuy() {
   ]
     .filter(Boolean)
     .join(", ");
+
+  // Build a detailed WhatsApp message with all property info
+  const buildWhatsAppMessage = () => {
+    const lines = [
+      `Hi, I'm interested in the following property:`,
+      ``,
+      `*${property.title}*`,
+      `Location: ${property.location}`,
+      `Price: ${property.currency} ${Number(property.price).toLocaleString()}`,
+      `Type: ${property.property_type}`,
+      `Bedrooms: ${property.bedrooms}`,
+      `Bathrooms: ${property.bathrooms}`,
+      `Size: ${property.size_sqft} sqft`,
+      `Status: ${STATUS_LABELS[property.status] || property.status}`,
+    ];
+
+    if (property.developer) {
+      lines.push(`Developer: ${property.developer}`);
+    }
+
+    if (property.handover_date) {
+      lines.push(`Handover Date: ${property.handover_date}`);
+    }
+
+    if (fullAddress) {
+      lines.push(`Address: ${fullAddress}`);
+    }
+
+    if (property.year_built) {
+      lines.push(`Year Built: ${property.year_built}`);
+    }
+
+    if (property.parking_spaces != null && property.parking_spaces !== "") {
+      lines.push(`Parking Spaces: ${property.parking_spaces}`);
+    }
+
+    if (property.furnished) {
+      lines.push(`Furnishing: ${FURNISHED_LABELS[property.furnished] || property.furnished}`);
+    }
+
+    lines.push(``);
+    lines.push(`Property Link: ${window.location.href}`);
+
+    return lines.join("\n");
+  };
+
+  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    buildWhatsAppMessage()
+  )}`;
 
   return (
     <div className="viewbuy-page">
@@ -361,20 +413,27 @@ function ViewBuy() {
           <div className="viewbuy-contact-card">
             <h3>Interested in this property?</h3>
             <p>Reach out to our team for a private viewing or more details.</p>
+
             <a
               className="viewbuy-contact-card__btn viewbuy-contact-card__btn--whatsapp"
-              href={`https://wa.me/?text=${encodeURIComponent(
-                `Hi, I'm interested in ${property.title} located at ${property.location}.`
-              )}`}
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaWhatsapp /> WhatsApp Us
             </a>
-            <a className="viewbuy-contact-card__btn viewbuy-contact-card__btn--call" href="tel:">
+
+            <a
+              className="viewbuy-contact-card__btn viewbuy-contact-card__btn--call"
+              href={`tel:+${WHATSAPP_NUMBER}`}
+            >
               <FaPhoneAlt /> Call Us
             </a>
-            <Link to="/contact" className="viewbuy-contact-card__link">
+
+            <Link
+              to="/contact"
+              className="viewbuy-contact-card__link"
+            >
               Or fill out our contact form
             </Link>
           </div>

@@ -15,6 +15,8 @@ import { FaDirections } from "react-icons/fa";
 import "../styles/Contact.scss";
 import bannerImg from "../assets/images/contact.png";
 
+const CONTACT_EMAIL = "info@panamasignature.com";
+
 const contactDetails = [
   {
     icon: HiOutlineLocationMarker,
@@ -24,7 +26,7 @@ const contactDetails = [
   {
     icon: HiOutlinePhone,
     label: "Call Us",
-    lines: ["+971 4 123 4567", "+971 50 123 4567"],
+    lines: ["+971507742399", "+971507742399"],
   },
   {
     icon: HiOutlineMail,
@@ -42,7 +44,7 @@ const offices = [
   {
     city: "Dubai",
     address: "Office No B2104-18, Latifa Towers, Sheikh Zayed Road",
-    phone: "+971 4 123 4567",
+    phone: "+971507742399",
   },
   
 ];
@@ -71,6 +73,21 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const emailSubject = `New Enquiry: ${form.subject || "Property Enquiry"}`;
+    const emailBody =
+      `Name: ${form.name}\n` +
+      `Email: ${form.email}\n` +
+      `Subject: ${form.subject}\n` +
+      `Budget: ${form.budget}\n\n` +
+      `Message:\n${form.message}`;
+
+    const mailtoUrl =
+      `mailto:${CONTACT_EMAIL}` +
+      `?subject=${encodeURIComponent(emailSubject)}` +
+      `&body=${encodeURIComponent(emailBody)}`;
+
+    window.location.href = mailtoUrl;
     setSubmitted(true);
   };
 
@@ -112,9 +129,13 @@ function Contact() {
             <div className="contact-banner__divider"></div>
 
             <div className="contact-banner__quicklinks">
-              <a href="tel:+971501234567" className="contact-banner__quicklink">
+              <a href="tel:+0545969259" className="contact-banner__quicklink">
                 <HiOutlinePhone />
-                +971 50 123 4567
+                 0545969259
+              </a>
+              <a href="tel:+971507742399" className="contact-banner__quicklink">
+                <HiOutlinePhone />
+                 +971507742399
               </a>
 
 <a
@@ -127,7 +148,8 @@ function Contact() {
 
               <span className="contact-banner__quicklink">
                 <HiOutlineLocationMarker />
-                Dubai, UAE
+                Office B2101  
+                Latifa Tower B-Block 21st Floor Sheikh Zayed Road Dubai, UAE
               </span>
             </div>
           </div>
@@ -208,7 +230,8 @@ function Contact() {
 
             <div className="contact-main__info-block">
               <span>info@panamasignature.com</span>
-              <span>+971 4 123 4567</span>
+              <span>0545969259</span>
+              <span>+971507742399</span>
             </div>
 
             <div className="contact-main__info-block">
@@ -217,8 +240,8 @@ function Contact() {
             </div>
 
             <div className="contact-main__info-block">
-              <span>Sunday — Thursday,</span>
-              <span>9am — 7pm GST</span>
+              <span>Sunday — saturday,</span>
+              <span>24 *7</span>
             </div>
           </div>
 
@@ -306,8 +329,9 @@ function Contact() {
 
             {submitted && (
               <p className="contact-form__success">
-                Thank you, your message has been sent. We'll be in touch
-                soon.
+                Your email app should now be open with the message ready to
+                send. If it didn't open, email us directly at{" "}
+                {CONTACT_EMAIL}.
               </p>
             )}
           </form>
