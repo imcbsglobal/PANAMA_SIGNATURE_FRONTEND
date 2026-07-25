@@ -62,26 +62,73 @@ function Home() {
     const video = heroVideoRef.current;
     if (!section || !video) return;
 
+    // Fixes mobile address-bar resize breaking ScrollTrigger's pin math
+    // (the #1 cause of "scrubs fine on desktop, jumps past on mobile").
+    // Safe to call multiple times; GSAP dedupes internally.
+    ScrollTrigger.normalizeScroll(true);
+
     let duration = 0;
     let targetTime = 0;
     let currentTime = 0;
     let rafId;
     let scrollTriggerInstance;
+    let unlocked = false;
+
+    // iOS Safari (and several Android WebViews) refuse to redraw a video
+    // frame via currentTime scrubbing until the element has actually been
+    // played at least once. This silently "unlocks" seeking on load without
+    // any visible playback -- required for the scrub to work on mobile at all.
+    const unlockVideoForScrubbing = () => {
+      if (unlocked) return;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            video.pause();
+            unlocked = true;
+          })
+          .catch(() => {
+            // Autoplay blocked -- try again on the first touch/scroll, since
+            // a user gesture always clears autoplay restrictions.
+            const retryOnGesture = () => {
+              video
+                .play()
+                .then(() => {
+                  video.pause();
+                  unlocked = true;
+                })
+                .catch(() => {});
+              window.removeEventListener("touchstart", retryOnGesture);
+              window.removeEventListener("scroll", retryOnGesture);
+            };
+            window.addEventListener("touchstart", retryOnGesture, { once: true });
+            window.addEventListener("scroll", retryOnGesture, { once: true });
+          });
+      } else {
+        video.pause();
+        unlocked = true;
+      }
+    };
 
     // Smooth interpolation loop -> this is what makes the scrub feel
     // buttery instead of stepping frame-by-frame with the scrollbar.
     const render = () => {
       currentTime += (targetTime - currentTime) * 0.08;
       if (Math.abs(currentTime - targetTime) < 0.01) currentTime = targetTime;
-      if (!isNaN(currentTime) && video.readyState >= 1) {
-        video.currentTime = currentTime;
+      // Skip redundant seeks -- only write currentTime when the delta is
+      // big enough to matter, instead of writing every single frame. This
+      // reduces how often mobile browsers have to decode a new frame.
+      if (!isNaN(currentTime) && video.readyState >= 2) {
+        if (Math.abs(video.currentTime - currentTime) > 0.03) {
+          video.currentTime = currentTime;
+        }
       }
       rafId = requestAnimationFrame(render);
     };
 
     const setup = () => {
       duration = video.duration || 0;
-      video.pause();
+      unlockVideoForScrubbing();
 
       scrollTriggerInstance = ScrollTrigger.create({
         trigger: section,
@@ -89,6 +136,7 @@ function Home() {
         end: "+=600%", // scroll distance mapped to full video length; increase for a slower, smoother reveal
         pin: true,
         scrub: true,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
           targetTime = self.progress * duration;
         },
@@ -97,14 +145,26 @@ function Home() {
       rafId = requestAnimationFrame(render);
     };
 
-    if (video.readyState >= 1) {
+    // readyState >= 2 (HAVE_CURRENT_DATA) so we know a frame is actually
+    // decoded before wiring up ScrollTrigger -- readyState 1 (metadata only)
+    // is enough for `duration` but not reliably enough for mobile seeking.
+    if (video.readyState >= 2) {
       setup();
     } else {
-      video.addEventListener("loadedmetadata", setup);
+      video.addEventListener("loadeddata", setup);
+      video.load();
     }
 
+    // Recalculate pin distances if the mobile address bar collapses/expands
+    // or the device rotates mid-scroll.
+    const handleResize = () => ScrollTrigger.refresh();
+    window.addEventListener("orientationchange", handleResize);
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      video.removeEventListener("loadedmetadata", setup);
+      video.removeEventListener("loadeddata", setup);
+      window.removeEventListener("orientationchange", handleResize);
+      window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(rafId);
       if (scrollTriggerInstance) scrollTriggerInstance.kill();
     };
@@ -119,6 +179,8 @@ function Home() {
           src={heroVideo}
           muted
           playsInline
+          webkit-playsinline="true"
+          disablePictureInPicture
           preload="auto"
         />
         <div className="hero__overlay" />

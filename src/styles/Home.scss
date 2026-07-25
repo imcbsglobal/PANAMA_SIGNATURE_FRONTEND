@@ -11,6 +11,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh; // stable height on mobile — doesn't jump as the address bar collapses/expands
   overflow: hidden;
   color: #fff;
 
