@@ -12,7 +12,7 @@ import {
   HiOutlinePencilAlt,
 } from "react-icons/hi";
 import { FaDirections } from "react-icons/fa";
-import "../styles/Contact.scss";
+import "../styles/contact.scss";
 import bannerImg from "../assets/images/contact.png";
 
 const CONTACT_EMAIL = "info@panamasignature.com";
