@@ -1,15 +1,20 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../styles/Home.scss";
 import heroVideo from "../assets/images/video-hq.mp4";
-import { HiArrowRight, HiPlay, HiPlus } from "react-icons/hi";
+import mobileBanner from "../assets/images/mobilebanner.png";
+import { HiArrowRight, HiPlay, HiPlus, HiX } from "react-icons/hi";
 import MarqueeSection from "../components/MarqueeSection";
 import Masonry from "../components/Masonry";
 import TeamSection from "../components/TeamSection";
 import AdminLoginModal from "./AdminLogin";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Keep this in sync with the $mobile-breakpoint used in Home.scss (991px).
+const MOBILE_BREAKPOINT = 991;
 
 const howItWorksSteps = [
   {
@@ -53,14 +58,32 @@ const testimonialPills = [
 ];
 
 function Home() {
+  const navigate = useNavigate();
   const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showVideoAd, setShowVideoAd] = useState(true);
+  const [isVideoAdExpanded, setIsVideoAdExpanded] = useState(false);
   const heroRef = useRef(null);
   const heroVideoRef = useRef(null);
+
+  // Track mobile vs desktop so we know whether to run the scroll-scrub
+  // video effect (desktop) or show the static banner + video-ad (mobile).
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const section = heroRef.current;
     const video = heroVideoRef.current;
     if (!section || !video) return;
+
+    // On mobile we show a static banner image instead of the scrubbed
+    // video, so skip wiring up ScrollTrigger/pinning entirely there.
+    if (isMobile) return;
 
     // Fixes mobile address-bar resize breaking ScrollTrigger's pin math
     // (the #1 cause of "scrubs fine on desktop, jumps past on mobile").
@@ -168,7 +191,7 @@ function Home() {
       cancelAnimationFrame(rafId);
       if (scrollTriggerInstance) scrollTriggerInstance.kill();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="home">
@@ -183,6 +206,10 @@ function Home() {
           disablePictureInPicture
           preload="auto"
         />
+        <div
+          className="hero__mobile-banner"
+          style={{ backgroundImage: `url(${mobileBanner})` }}
+        />
         <div className="hero__overlay" />
         <div className="hero__content">
           <h1>
@@ -194,7 +221,10 @@ function Home() {
             Discover exclusive properties designed to elevate your lifestyle
             and build a legacy for generations.
           </p>
-          <button className="hero__explore-btn">
+          <button
+            className="hero__explore-btn"
+            onClick={() => navigate("/projects")}
+          >
             Explore Availability <HiArrowRight />
           </button>
         </div>
@@ -416,6 +446,80 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* Mobile-only floating video "ad" -- a small floating reel, same
+          idea as a floating WhatsApp button, sitting bottom-left so it
+          doesn't collide with a WhatsApp bubble on the right. Closing it
+          hides it for the rest of the session (it does not reopen). */}
+      {/* Mobile-only floating video "ad" -- a small floating reel, same
+          idea as a floating WhatsApp button, sitting bottom-left so it
+          doesn't collide with a WhatsApp bubble on the right. Tapping the
+          reel expands the video to full size; tapping its own close (x)
+          dismisses it for the session instead. */}
+      {isMobile && showVideoAd && !isVideoAdExpanded && (
+        <div
+          className="video-ad-float"
+          onClick={() => setIsVideoAdExpanded(true)}
+          role="button"
+          tabIndex={0}
+          aria-label="Expand video"
+        >
+          <div className="video-ad-float__clip">
+            <video
+              className="video-ad-float__video"
+              src={heroVideo}
+              autoPlay
+              muted
+              loop
+              playsInline
+              webkit-playsinline="true"
+              disablePictureInPicture
+            />
+          </div>
+          <button
+            type="button"
+            className="video-ad-float__close"
+            aria-label="Close video"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowVideoAd(false);
+            }}
+          >
+            <HiX />
+          </button>
+        </div>
+      )}
+
+      {isMobile && showVideoAd && isVideoAdExpanded && (
+        <div
+          className="video-ad-overlay"
+          onClick={() => setIsVideoAdExpanded(false)}
+        >
+          <div
+            className="video-ad-overlay__card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="video-ad-overlay__close"
+              aria-label="Close video"
+              onClick={() => setIsVideoAdExpanded(false)}
+            >
+              <HiX />
+            </button>
+            <video
+              className="video-ad-overlay__video"
+              src={heroVideo}
+              autoPlay
+              muted
+              loop
+              playsInline
+              webkit-playsinline="true"
+              disablePictureInPicture
+            />
+          </div>
+        </div>
+      )}
 
       {showAdminLogin && (
         <AdminLoginModal onClose={() => setShowAdminLogin(false)} />

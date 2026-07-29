@@ -2,6 +2,7 @@
   width: 100%;
   background: #f4f4f2;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 // ===== Banner =====
@@ -306,6 +307,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 100px 60px;
+  box-sizing: border-box;
 
   &__eyebrow-row {
     display: flex;
@@ -375,10 +377,16 @@
 .contact-form {
   flex: 1;
   min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
   background: #fff;
   border-radius: 8px;
   padding: 12px;
   box-shadow: 0 20px 50px rgba(26, 18, 6, 0.06);
+
+  * {
+    box-sizing: border-box;
+  }
 
   &__row {
     display: flex;
@@ -389,6 +397,7 @@
   &__field {
     position: relative;
     flex: 1;
+    min-width: 0;
     background: #f4f4f2;
     border-radius: 4px;
 
@@ -497,6 +506,63 @@
     &__row {
       flex-direction: column;
       gap: 12px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-main {
+    padding: 48px 16px;
+
+    &__title {
+      font-size: 22px;
+      margin-bottom: 36px;
+    }
+
+    &__eyebrow-row {
+      max-width: 100%;
+    }
+  }
+
+  .contact-form {
+    padding: 10px;
+    border-radius: 10px;
+
+    &__row {
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    &__field {
+      input,
+      select,
+      textarea {
+        padding: 15px 40px 15px 14px;
+        font-size: 13px;
+      }
+    }
+
+    &__field--message {
+      margin-bottom: 10px;
+
+      textarea {
+        padding: 15px 40px 15px 14px;
+      }
+    }
+
+    &__icon {
+      top: 16px;
+      right: 12px;
+      font-size: 15px;
+    }
+
+    &__submit {
+      padding: 15px 20px;
+      font-size: 12px;
+    }
+
+    &__success {
+      font-size: 12px;
     }
   }
 }

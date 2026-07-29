@@ -23,6 +23,12 @@ const BANNER_SELECTORS = {
 // root margin so the switch happens right as content tucks under it
 const NAVBAR_HEIGHT = 68;
 
+// exact match for "/", but prefix match for everything else so that
+// nested detail routes (e.g. /buy/:id, /rent/:id, /projects/:id) still
+// get treated the same as their parent listing page's navbar style
+const matchesRoute = (path, route) =>
+  route === "/" ? path === "/" : path === route || path.startsWith(route + "/");
+
 function Navbar() {
   const location = useLocation();
   const [showAdminLogin, setShowAdminLogin] = useState(false);
@@ -30,8 +36,8 @@ function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const observerRef = useRef(null);
 
-  const isTransparent = TRANSPARENT_ROUTES.includes(location.pathname);
-  const isLight = LIGHT_ROUTES.includes(location.pathname);
+  const isTransparent = TRANSPARENT_ROUTES.some((route) => matchesRoute(location.pathname, route));
+  const isLight = LIGHT_ROUTES.some((route) => matchesRoute(location.pathname, route));
   const isHome = location.pathname === "/";
 
   useEffect(() => {
@@ -110,13 +116,13 @@ function Navbar() {
               <li className={location.pathname === "/about" ? "active" : ""}>
                 <Link to="/about" onClick={closeMobileMenu}>About</Link>
               </li>
-              <li className={location.pathname === "/buy" ? "active" : ""}>
+              <li className={matchesRoute(location.pathname, "/buy") ? "active" : ""}>
                 <Link to="/buy" onClick={closeMobileMenu}>Buy</Link>
               </li>
-              <li className={location.pathname === "/projects" ? "active" : ""}>
+              <li className={matchesRoute(location.pathname, "/projects") ? "active" : ""}>
                 <Link to="/projects" onClick={closeMobileMenu}>Projects</Link>
               </li>
-              <li className={location.pathname === "/rent" ? "active" : ""}>
+              <li className={matchesRoute(location.pathname, "/rent") ? "active" : ""}>
                 <Link to="/rent" onClick={closeMobileMenu}>Rent</Link>
               </li>
               <li className={location.pathname === "/contact" ? "active" : ""}>

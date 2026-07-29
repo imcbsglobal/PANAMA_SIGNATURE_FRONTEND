@@ -1,5 +1,5 @@
 // panama-signature/src/pages/AdminTeam.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/AdminTeam.scss";
 import api from "../api/api";
 import { resolveImage } from "../api/config";
@@ -14,6 +14,7 @@ function AdminTeam() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [existingPhoto, setExistingPhoto] = useState(null);
+  const fileInputRef = useRef(null);
 
   const loadAgents = async () => {
     try {
@@ -42,6 +43,9 @@ function AdminTeam() {
     setForm(emptyForm);
     setEditingId(null);
     setExistingPhoto(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleEditClick = (agent) => {
@@ -53,6 +57,9 @@ function AdminTeam() {
       bio: agent.bio || "",
       photo: null,
     });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -122,7 +129,13 @@ function AdminTeam() {
 
             <label>
               Photo {editingId && "(leave empty to keep current)"}
-              <input type="file" name="photo" accept="image/*" onChange={handleChange} />
+              <input
+                type="file"
+                name="photo"
+                accept="image/*"
+                onChange={handleChange}
+                ref={fileInputRef}
+              />
             </label>
 
             {editingId && existingPhoto && (
@@ -167,7 +180,7 @@ function AdminTeam() {
                 <div className="admin-team__item-info">
                   <span className="admin-team__item-name">
                     {agent.name}
-                    {!agent.is_active && <span className="admin-team__badge">Inactive</span>}
+                    {/* {!agent.is_active && <span className="admin-team__badge">Inactive</span>} */}
                   </span>
                   <span className="admin-team__item-designation">{agent.designation}</span>
                   {/* {agent.bio && <p className="admin-team__item-bio">{agent.bio}</p>} */}

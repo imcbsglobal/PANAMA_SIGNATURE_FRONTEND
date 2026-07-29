@@ -51,10 +51,11 @@ function Sidebar() {
   }, [isMobileOpen]);
 
   const navItems = [
+    { path: "/admin-team", label: "Team" },
     { path: "/admin-buy", label: "Buy Properties" },
     { path: "/admin-rent", label: "Rent properties" },
     { path: "/admin-project", label: "Projects" },
-    { path: "/admin-team", label: "Team" },
+    // { path: "/admin-team", label: "Team" },
   ];
 
   return (
