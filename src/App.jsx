@@ -8,7 +8,7 @@ import ViewBuy from "./pages/ViewBuy";
 import Rent from "./pages/Rent";
 import Projects from "./pages/Projects";
 import About from "./pages/About";
-import Contact from "./pages/Contact";
+import Contact from "./pages/contact";
 import AdminTeam from "./pages/AdminTeam";
 import AdminBuy from "./pages/AdminBuy";
 import ManagePropertyByAdmin from "./pages/ManagePropertyByAdmin";
