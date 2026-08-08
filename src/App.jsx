@@ -20,6 +20,7 @@ import ManagerentByAdmin from "./pages/ManagerentByAdmin";
 import ManageProjects from "./pages/manageprojects";
 import ViewProperty from "./pages/viewproperty";
 import ViewRent from "./pages/ViewRent";
+import Licensing from "./components/Licensing";
 
 const whatsappStyle = {
   position: "fixed",
@@ -63,107 +64,109 @@ function WhatsAppButton() {
     return null;
   }
 
-  return (
-    <a
-      href="https://wa.me/+971507742399"
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Chat on WhatsApp"
-      style={whatsappStyle}
-    >
-      <FaWhatsapp />
-    </a>
-  );
+return (
+  <a
+    href="https://wa.me/+971507742399"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Chat on WhatsApp"
+    style={whatsappStyle}
+  >
+    <FaWhatsapp />
+  </a>
+);
 }
 
 function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
+    <Licensing>
+      <BrowserRouter>
+        <ScrollToTop />
 
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/buy" element={<Buy />} />
-          <Route path="/rent" element={<Rent />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Route>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/buy" element={<Buy />} />
+            <Route path="/rent" element={<Rent />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Route>
 
-        {/* No navbar/footer for the property detail pages */}
-        <Route path="/buy/:slug" element={<ViewBuy />} />
-        <Route path="/rent/:slug" element={<ViewRent />} />
-        <Route path="/property/:slug" element={<ViewProperty />} />
+          {/* No navbar/footer for the property detail pages */}
+          <Route path="/buy/:slug" element={<ViewBuy />} />
+          <Route path="/rent/:slug" element={<ViewRent />} />
+          <Route path="/property/:slug" element={<ViewProperty />} />
 
-        <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
 
-        <Route
-          path="/admin-team"
-          element={
-            <ProtectedRoute>
-              <AdminTeam />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/admin-team"
+            element={
+              <ProtectedRoute>
+                <AdminTeam />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/admin-buy"
-          element={
-            <ProtectedRoute>
-              <AdminBuy />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/admin-buy"
+            element={
+              <ProtectedRoute>
+                <AdminBuy />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/manage-rent-admin"
-          element={
-            <ProtectedRoute>
-              <ManagerentByAdmin />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/manage-rent-admin"
+            element={
+              <ProtectedRoute>
+                <ManagerentByAdmin />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/manage-property-admin"
-          element={
-            <ProtectedRoute>
-              <ManagePropertyByAdmin />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/manage-property-admin"
+            element={
+              <ProtectedRoute>
+                <ManagePropertyByAdmin />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/admin-rent"
-          element={
-            <ProtectedRoute>
-              <AdminAddRent />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/admin-rent"
+            element={
+              <ProtectedRoute>
+                <AdminAddRent />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/admin-project"
-          element={
-            <ProtectedRoute>
-              <AdminAddProject />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/admin-project"
+            element={
+              <ProtectedRoute>
+                <AdminAddProject />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/manageprojects"
-          element={
-            <ProtectedRoute>
-              <ManageProjects />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/manageprojects"
+            element={
+              <ProtectedRoute>
+                <ManageProjects />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
 
-      <WhatsAppButton />
-    </BrowserRouter>
+        <WhatsAppButton />
+      </BrowserRouter>
+    </Licensing>
   );
 }
 

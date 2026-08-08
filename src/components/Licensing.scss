@@ -1,0 +1,321 @@
+$bg:        #0a0706;
+$panel:     #120a09;
+$panel-line:#3d1210;
+$red:       #ff2d2d;
+$red-dim:   #7a1414;
+$red-glow:  rgba(255,45,45,.55);
+$ink:       #f3e9e6;
+$ink-soft:  #b9a8a4;
+
+$display: 'Anton', 'Arial Black', 'Impact', sans-serif;
+$body:    'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+$mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+// ───────────────────────── Overlay / background ─────────────────────────
+.lic-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 48px 20px;
+  font-family: $body;
+  color: $ink;
+
+  background-color: $bg;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  // dark scrim so text stays legible over the image
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(120% 70% at 50% 0%, rgba(0,0,0,.15) 0%, rgba(0,0,0,.55) 45%, rgba(0,0,0,.85) 100%);
+  }
+
+  &::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(700px 300px at 50% 0%, rgba(255,40,40,.10), transparent 70%);
+    animation: lic-ember-pulse 5s ease-in-out infinite;
+  }
+}
+
+// ───────────────────────── Frame ─────────────────────────
+.lic-frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 620px;
+  text-align: center;
+  animation: lic-fadein .6s cubic-bezier(.2,.9,.3,1) both;
+}
+
+// ───────────────────────── Seal / triangle icon ─────────────────────────
+.lic-seal {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lic-seal-icon {
+  color: $red;
+  filter:
+    drop-shadow(0 0 10px $red-glow)
+    drop-shadow(0 0 28px rgba(255,45,45,.4));
+  animation: lic-icon-flicker 3.4s ease-in-out infinite;
+}
+
+// ───────────────────────── Headline ─────────────────────────
+.lic-headline {
+  margin: 4px 0 18px;
+  font-family: $display;
+  font-weight: 900;
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  letter-spacing: .04em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: $red;
+  background: linear-gradient(180deg, #ff5a5a 0%, #c81414 55%, #7a0a0a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 18px rgba(255,45,45,.55),
+    0 0 46px rgba(255,20,20,.35);
+  filter: drop-shadow(0 3px 0 rgba(0,0,0,.5));
+  animation: lic-headline-glitch 4.5s ease-in-out infinite;
+}
+
+.lic-message {
+  margin: 0 auto 30px;
+  max-width: 440px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: $ink-soft;
+}
+
+// ───────────────────────── Status / record panel ─────────────────────────
+.lic-record {
+  text-align: center;
+  border: 1px solid $red-dim;
+  background: linear-gradient(180deg, rgba(20,6,6,.78), rgba(8,3,3,.9));
+  box-shadow: 0 0 0 1px rgba(255,45,45,.08), 0 20px 50px rgba(0,0,0,.55);
+  border-radius: 10px;
+  margin-bottom: 26px;
+  overflow: hidden;
+  backdrop-filter: blur(2px);
+}
+
+.lic-record-head {
+  padding: 16px 18px 8px;
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $red;
+}
+
+.lic-record-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: $display;
+  font-size: 1.5rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: $red;
+  text-shadow: 0 0 16px $red-glow;
+  padding-bottom: 16px;
+
+  svg { animation: lic-icon-flicker 2.2s ease-in-out infinite; }
+}
+
+.lic-row-group {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255,45,45,.22);
+}
+
+.lic-row-group .lic-row {
+  flex: 1 1 33%;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  text-align: left;
+  border-top: none;
+}
+
+.lic-row-icon { color: $ink-soft; flex-shrink: 0; }
+
+.lic-row-group .lic-row > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.lic-row-full {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-top: 1px solid rgba(255,45,45,.14);
+  text-align: left;
+}
+
+.lic-label {
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: $ink-soft;
+  white-space: nowrap;
+  display: block;
+  margin-bottom: 2px;
+}
+.lic-value {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: $ink;
+}
+.lic-value.lic-mono {
+  font-family: $mono;
+  font-size: 13px;
+  letter-spacing: .02em;
+  color: $red;
+}
+.lic-row-full .lic-value { text-align: right; }
+
+// ───────────────────────── Retry / action button ─────────────────────────
+.lic-retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 15px 34px;
+  border: 1px solid $red;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #b31414, #7a0a0a);
+  color: $ink;
+  font-family: $body;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(255,45,45,.35), inset 0 1px 0 rgba(255,255,255,.08);
+  transition: transform .15s ease, box-shadow .15s ease;
+
+  &:hover   { transform: translateY(-1px); box-shadow: 0 0 34px rgba(255,45,45,.55); }
+  &:active  { transform: translateY(0); }
+}
+
+// ───────────────────────── Footer ─────────────────────────
+.lic-footer {
+  margin-top: 26px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.lic-help-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: $red;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.lic-provider {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border: 1px solid $panel-line;
+  border-radius: 6px;
+  background: rgba(20,10,10,.6);
+  text-decoration: none;
+}
+.lic-provider-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.lic-provider-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.lic-provider-meta { display: flex; flex-direction: column; align-items: flex-start; }
+.lic-provider-name { font-size: 12.5px; font-weight: 700; color: $ink; }
+.lic-provider-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  color: $red;
+  font-weight: 600;
+}
+.lic-secure {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: $ink-soft;
+}
+
+@media (max-width: 560px) {
+  .lic-record-status { font-size: 1.2rem; }
+  .lic-row-group .lic-row { flex: 1 1 100%; border-top: 1px solid rgba(255,45,45,.14) !important; }
+}
+
+// ───────────────────────── Animations ─────────────────────────
+@keyframes lic-fadein {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes lic-ember-pulse {
+  0%, 100% { opacity: .85; }
+  50%      { opacity: 1; }
+}
+@keyframes lic-icon-flicker {
+  0%, 88%, 100% { opacity: 1;  filter: drop-shadow(0 0 10px rgba(255,45,45,.55)) drop-shadow(0 0 28px rgba(255,45,45,.4)); }
+  90%           { opacity: .55; }
+  92%           { opacity: 1;  filter: drop-shadow(0 0 20px rgba(255,45,45,.55)) drop-shadow(0 0 46px rgba(255,45,45,.6)); }
+  94%           { opacity: .6; }
+}
+@keyframes lic-headline-glitch {
+  0%, 92%, 100% { transform: translate(0,0); }
+  93%           { transform: translate(-1.5px, 0.5px); }
+  94%           { transform: translate(1.5px, -0.5px); filter: hue-rotate(6deg); }
+  95%           { transform: translate(-0.5px, 0); }
+  96%           { transform: translate(0,0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lic-overlay::after, .lic-seal-icon, .lic-record-status svg, .lic-headline, .lic-frame {
+    animation: none !important;
+  }
+}
